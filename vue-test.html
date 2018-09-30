@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>vue test</title>
+        <style media="screen">
+        #id-table {
+            border-collapse: collapse;
+        }
+
+        #id-table td {
+            border: solid 2px pink;
+            width: 50px;
+        }
+
+        #id-table td[contenteditable=false] {
+            background: #e8e8e8;
+        }
+        </style>
+        <script src="jquery-1.8.3.js"></script>
+        <script src="vue.js"></script>
+        <script>
+        $(function() {
+            var vm = new Vue({
+                el: '#vm',
+                data: {
+                    name: 'evan',
+                    age: 19,
+                }
+            })
+            window.vm = vm
+
+            // form
+            var form = new Vue({
+                el: '#id-form',
+                data: {
+                    email: '',
+                    name: '',
+                    language: [],
+                },
+                methods: {
+                    register: function() {
+                        alert(JSON.stringify(this.$data))
+                    }
+                }
+            })
+            window.form = form
+
+            // todo
+            var todo = new Vue({
+                el: '#id-todo',
+                data: {
+                    todos: [
+                        {
+                            name: 'review',
+                            description: 'new iphone',
+                        },
+                        {
+                            name: 'project',
+                            description: 'dir',
+                        },
+                        {
+                            name: 'eat',
+                            description: 'now',
+                        },
+                    ]
+                }
+            })
+            window.todo = todo
+
+            // table
+            var table = new Vue({
+                el: '#id-table',
+                data: {
+                    title: 'New Sheet',
+                    header: [ // 对应首行 A, B, C...
+                        { row: 0, col: 0, text: 'A' },
+                        { row: 0, col: 1, text: 'B' },
+                        { row: 0, col: 2, text: 'C' },
+                        { row: 0, col: 3, text: 'J' },
+                    ],
+                    rows: [
+                        [
+                            { row: 1, col: 0, text: '1', contentEditable: false, align: ''},
+                            { row: 1, col: 1, text: '4', contentEditable: true, align: '' },
+                            { row: 1, col: 2, text: '5', contentEditable: true, align: '' },
+                            { row: 1, col: 3, text: '7', contentEditable: true, align: '' },
+                        ],
+                        [
+                            { row: 2, col: 0, text: '2', contentEditable: false, align: '' },
+                            { row: 2, col: 1, text: '3', contentEditable: true, align: '' },
+                            { row: 2, col: 2, text: '6', contentEditable: true, align: '' },
+                            { row: 2, col: 3, text: '8', contentEditable: false, align: '' },
+                        ],
+                        [
+                            { row: 3, col: 0, text: '3', contentEditable: false, align: '' },
+                            { row: 3, col: 1, text: 'j', contentEditable: true, align: '' },
+                            { row: 3, col: 2, text: 'd', contentEditable: true, align: '' },
+                            { row: 3, col: 3, text: 's', contentEditable: true, align: '' },
+                        ]
+                    ],
+                    selectedRowIndex: 0, // 当前活动单元格的row
+                    selectedColIndex: 0 // 当前活动单元格的col
+                },
+                methods: {
+                    focus: function(cell) {
+                        this.selectedRowIndex = cell.row
+                        this.selectedColIndex = cell.col
+                        console.log('row', cell.row, 'col', cell.col)
+                    },
+                    change: function(e) {
+                        var rowIndex = this.selectedRowIndex
+                        var colIndex = this.selectedColIndex
+                        var text = e.target.innerText
+                        if (rowIndex > 0 && colIndex > 0) {
+                            this.rows[rowIndex - 1][colIndex].text = text
+                        }
+
+                    },
+                }
+            })
+            window.table = table
+
+            var setAlign = function(align) {
+                var rowIndex = table.selectedRowIndex
+                var colIndex = table.selectedColIndex
+                var row = table.rows[rowIndex - 1]
+                var cell = row[colIndex]
+                cell.align = align
+            }
+            $('#id-button-left').click(function () {
+                setAlign('left');
+            });
+            $('#id-button-center').click(function () {
+                setAlign('center');
+            });
+            $('#id-button-right').click(function () {
+                setAlign('right');
+            });
+
+            // component
+            Vue.component('todo-item', {
+                props: ['todo'],
+                template: '<li>{{todo.text}}</li>',
+            })
+
+            var todoComponent = new Vue({
+                el: '#id-todo-component',
+                data: {
+                    groceryList: [
+                        {
+                            id: 0,
+                            text: 'vegetable',
+                        },
+                        {
+                            id: 1,
+                            text: 'cheese',
+                        },
+                        {
+                            id: 2,
+                            text: 'other human food',
+                        },
+                    ]
+                }
+            })
+            window.todoComponent = todoComponent
+
+            // 计算属性
+            var computed = new Vue({
+                el: '#id-computed',
+                data: {
+                    message: 'hello',
+                },
+                computed: {
+                    reversedMessage: function() {
+                        return this.message.split('').reverse().join('')
+                    }
+                }
+            })
+            var computedSetter = new Vue({
+                el: '#id-setter',
+                data: {
+                    firstName: 'Foo',
+                    lastName: 'Bar',
+                },
+                computed: {
+                    fullName: {
+                        get: function() {
+                            return this.firstName + ' ' + this.lastName
+                        },
+                        set: function(newValue) {
+                            var names = newValue.split(' ')
+                            this.firstName = names[0]
+                            this.lastName = names[names.length - 1]
+                        }
+                        // 现在再运行 vm.fullName = 'John Doe' 时，setter 会被调用
+                        // vm.firstName 和 vm.lastName 也会相应地被更新。
+                        // 貌似 setter 就是可以通过 fullName 去更新 firstName 和 lastName
+                    }
+                }
+            })
+            window.computedSetter = computedSetter
+
+            // 在 v-for 块中，我们拥有对父作用域属性的完全访问权限。v-for 还支持一个可选的第二个参数为当前项的索引。
+            var listRender = new Vue({
+                el: '#id-listRender',
+                data: {
+                    parentMessage: 'parent',
+                    items: [
+                        {
+                            message: 'foo',
+                        },
+                        {
+                            message: 'bar',
+                        },
+                    ]
+                }
+            })
+            window.listRender = listRender
+
+            // 对象的 v-for
+            var objectRender = new Vue({
+                el: '#id-objectRender',
+                data: {
+                    object: {
+                        firstName: 'John',
+                        lastName: 'Doe',
+                        age: 30,
+                    }
+                }
+            })
+
+
+            // 想要增加属性，直接加是不行的。必须用 set 或者 $set
+            var addKey = new Vue({
+
+            })
+            // vm.$set($data, 'height', 169)
+
+        })
+        </script>
+    </head>
+    <body>
+        <div id="vm" class="">
+            <p>hello, {{name}}!</p>
+            <p>you are {{age}} years old!</p>
+            <p>hello, <span v-text="name"></span></p>
+        </div>
+
+        <form id="id-form" class="" action="index.html" v-on:submit.prevent="register">
+            <p><input type="text" name="" value="" v-model="email" placeholder="email"></p>
+            <p><input type="text" name="" value="" v-model="name" placeholder="name"></p>
+            <label><input type="checkbox" v-model="language" value="zh">chinese</label>
+            <label><input type="checkbox" v-model="language" value="en">english</label>
+            <label><input type="checkbox" v-model="language" value="fr">french</label>
+            <input type="submit" name="" value="submit">
+        </form>
+
+        <div id="id-todo" class="">
+            <ol>
+                <li v-for="t in todos">
+                    <dl class="">
+                        <dt>{{t.name}}</dt>
+                        <dt>{{t.description}}</dt>
+                    </dl>
+                </li>
+            </ol>
+        </div>
+
+        <!-- table -->
+        <div class="">
+            <table id="id-table">
+                <thead>
+                    <tr>
+                        <th v-for="cell in header" v-text="cell.text"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="tr in rows">
+                        <td v-for="cell in tr" v-text="cell.text" v-bind:contenteditable="cell.contentEditable"
+                        v-on:click="focus(cell)" v-on:blur="change" v-bind:style="{textAlign: cell.align}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button id="id-button-left" type="button" name="button">left</button>
+            <button id="id-button-center" type="button" name="button">center</button>
+            <button id="id-button-right" type="button" name="button">right</button>
+        </div>
+
+        <!-- todo component -->
+        <div id="id-todo-component" class="">
+            <ol>
+                <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id"></todo-item>
+            </ol>
+        </div>
+
+        <!-- 计算属性 -->
+        <div id="id-computed" class="">
+            <p>original message: {{ message }}</p>
+            <p>computed reversed message: {{ reversedMessage }}</p>
+        </div>
+        <!-- 计算属性 setter -->
+        <div id="id-setter" class="">
+            <p>{{ fullName }}</p>
+        </div>
+
+        <!-- 列表渲染一些特征，可以访问父作用域属性，可以带上第二个参数表示索引 -->
+        <ul id="id-listRender">
+            <li v-for="(item, index) in items">{{parentMessage}}-{{index}}-{{item.message}}</li>
+        </ul>
+
+        <!-- v-for 还可以遍历对象，也可以带参数 -->
+        <ul id="id-objectRender">
+            <li v-for="(value, key, index) in object">{{ index }}.{{ key }}.{{ value }}</li>
+        </ul>
+    </body>
+</html>
