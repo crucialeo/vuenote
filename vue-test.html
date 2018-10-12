@@ -233,10 +233,14 @@
 
             // 想要增加属性，直接加是不行的。必须用 set 或者 $set
             var addKey = new Vue({
-                // el: '#id-addKey',
+                el: '#id-addKey',
+                data: {
+                    userProfile: {
+                        name: 'Anika',
+                    }
+                }
             })
-            // vm.$set($data, 'height', 169)
-
+            window.addKey = addKey
         })
         </script>
     </head>
@@ -315,11 +319,13 @@
         </ul>
 
         <div id="id-addKey" class="">
-            <p></p>
+            <p v-for="(value, key) in userProfile">{{ key }}:{{ value }}</p>
         </div>
 
-        <label for="test-checkbox"></label>
-        <input class="test-checkbox" type="checkbox" name="" value="">
-        <input class="test-checkbox" type="checkbox" name="" value="">
+        <label for="test-checkbox">
+            <input class="test-checkbox" type="checkbox" name="" value="">
+            <input class="test-checkbox" type="checkbox" name="" value="">
+        </label>
+        
     </body>
 </html>
