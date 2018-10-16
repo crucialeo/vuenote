@@ -243,13 +243,47 @@
             window.addKey = addKey
 
             // 一个完整的 todo 的例子
-            Vue.component('todo-list-item', {
-                template: `
-                    <li>{{ title }}
-                        <button v-on:click="$emit('remove')">Remove</button>
-                    </li>
-                `,
-                props: ['title'],
+            // Vue.component('todo-list-item', {
+            //     template: `
+            //         <li>{{ title }}
+            //             <button v-on:click="$emit('remove')">Remove</button>
+            //         </li>
+            //         `,
+            //     props: ['title'],
+            // })
+            // var todoExample = new Vue({
+            //     el: '#todo-list-example',
+            //     data: {
+            //         newTodoText: '',
+            //         todos: [
+            //             {
+            //                 id: 1,
+            //                 title: 'Do the dishes',
+            //             },
+            //             {
+            //                 id: 2,
+            //                 title: 'Take out the trash',
+            //             },
+            //             {
+            //                 id: 3,
+            //                 title: 'Mow the lawn',
+            //             },
+            //         ],
+            //         nextTodoId: 4,
+            //     },
+            //     methods: {
+            //         addNewTodo: function() {
+            //             this.todos.push({
+            //                 id: this.nextTodoId++,
+            //                 title: this.newTodoText,
+            //             })
+            //             this.newTodoText = ''
+            //         }
+            //     }
+            // })
+            Vue.component('todo-item', {
+                template: `<li>{{ done }} {{ title }}<button v-on:click="$emit('remove')">Remove</button></li>`,
+                props: ['title', 'done'],
             })
             var todoExample = new Vue({
                 el: '#todo-list-example',
@@ -258,15 +292,18 @@
                     todos: [
                         {
                             id: 1,
-                            title: 'Do the dishes',
+                            title: 'eat',
+                            done: 'yes',
                         },
                         {
                             id: 2,
-                            title: 'Take out the trash',
+                            title: 'drink',
+                            done: 'no',
                         },
                         {
                             id: 3,
-                            title: 'Mow the lawn',
+                            title: 'sleep',
+                            done: 'yes',
                         },
                     ],
                     nextTodoId: 4,
@@ -277,10 +314,10 @@
                             id: this.nextTodoId++,
                             title: this.newTodoText,
                         })
-                        this.newTodoText = ''
                     }
                 }
             })
+            window.todoExample = todoExample
         })
         </script>
     </head>
@@ -362,7 +399,7 @@
             <p v-for="(value, key) in userProfile">{{ key }}:{{ value }}</p>
         </div>
 
-        <div id="todo-list-example" class="">
+        <!-- <div id="todo-list-example" class="">
             <form class="" v-on:submit.prevent="addNewTodo">
                 <label for="new-todo">Add a todo</label>
                 <input id="new-todo" type="text" v-model="newTodoText" placeholder="ju ge li zi">
@@ -370,6 +407,16 @@
             </form>
             <ul>
                 <li is="todo-list-item" v-for="(todo, index) in todos" v-bind:key="todo.id" v-bind:title="todo.title" v-on:remove="todos.splice(index, 1)"></li>
+            </ul>
+        </div> -->
+        <div id="todo-list-example" class="" v-on:submit.prevent="addNewTodo">
+            <form class="">
+                <label for="new-todo">Add a todo</label>
+                <input id="new-todo" type="text" name="" value="" placeholder="write something" v-model="newTodoText">
+                <button name="button">Add</button>
+            </form>
+            <ul>
+                <li is="todo-item" v-for="(item, index) in todos" v-bind:key="item.id" v-bind:title="item.title" v-bind:done="item.done" v-on:remove="todos.splice(index, 1)"></li>
             </ul>
         </div>
     </body>
