@@ -318,6 +318,21 @@
                 }
             })
             window.todoExample = todoExample
+
+            // 监听事件
+            var eventExample1 = new Vue({
+                el: '#id-event-1',
+                data: {
+                    counter: 0,
+                },
+                methods: {
+                    add: function() {
+                        this.counter += 1
+                        console.log('counter', this.counter)
+                    }
+                }
+            })
+            window.eventExample1 = eventExample1
         })
         </script>
     </head>
@@ -418,6 +433,12 @@
             <ul>
                 <li is="todo-item" v-for="(item, index) in todos" v-bind:key="item.id" v-bind:title="item.title" v-bind:done="item.done" v-on:remove="todos.splice(index, 1)"></li>
             </ul>
+        </div>
+
+        <!-- 监听事件 -->
+        <div id="id-event-1" class="">
+            <button v-on:click="add" type="button" name="button">Add 1</button>
+            <p>The button above has been clicked {{ counter }} times.</p>
         </div>
     </body>
 </html>
