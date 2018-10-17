@@ -125,5 +125,11 @@
             <button v-on:click="add" type="button" name="button">Add 1</button>
             <p>The button above has been clicked {{ counter }} times.</p>
         </div>
+
+        <div id="id-event-2" class="">
+            <!-- 这里第二个参数去掉 $ 符号是不行的 -->
+            <!-- 但是整个 $event 不写又是可以的，疑惑 -->
+            <button v-on:click="warn('Form cannot be submit yet', $event)">submit</button>
+        </div>
     </body>
 </html>

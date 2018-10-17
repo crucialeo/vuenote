@@ -304,11 +304,25 @@ $(function() {
             counter: 0,
         },
         methods: {
-            add: function() {
+            add: function(event) {
+                // this 在方法里面指向当前 Vue 实例
+                // event 是原生的 DOM 事件
                 this.counter += 1
                 console.log('counter', this.counter)
             }
         }
     })
     window.eventExample1 = eventExample1
+
+    var eventExample2 = new Vue({
+        el: '#id-event-2',
+        methods: {
+            warn: function(message, event) {
+                if (event) {
+                    event.preventDefault()
+                }
+                alert(message)
+            }
+        }
+    })
 })
