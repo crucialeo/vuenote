@@ -131,5 +131,11 @@
             <!-- 但是整个 $event 不写又是可以的，疑惑 -->
             <button v-on:click="warn('Form cannot be submit yet', $event)">submit</button>
         </div>
+
+        <!-- 表单元素 -->
+        <div id="id-checkbox-example" class="">
+            <input id="id-input-checkbox" type="checkbox" name="" value="" v-model="checked">
+            <label for="id-input-checkbox">{{ checked }}</label>
+        </div>
     </body>
 </html>

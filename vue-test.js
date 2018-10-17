@@ -325,4 +325,12 @@ $(function() {
             }
         }
     })
+
+    // form checkbox
+    var checkboxExample = new Vue({
+        el: '#id-checkbox-example',
+        data: {
+            checked: false,
+        }
+    })
 })
