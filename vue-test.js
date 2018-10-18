@@ -331,6 +331,15 @@ $(function() {
         el: '#id-checkbox-example',
         data: {
             checked: false,
+            // 写成 checked: '' 也可以，疑问？
+            // 还是说，只要是单个的 checkbox，就一定是绑到 bool 值
         }
+    })
+
+    var checkboxExample2 = new Vue({
+        el: '#id-checkbox-example2',
+        data: {
+            checkedName: false,
+        },
     })
 })

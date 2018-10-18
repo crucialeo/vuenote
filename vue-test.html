@@ -137,5 +137,15 @@
             <input id="id-input-checkbox" type="checkbox" name="" value="" v-model="checked">
             <label for="id-input-checkbox">{{ checked }}</label>
         </div>
+
+        <div id="id-checkbox-example2" class="">
+            <input id="jack" type="checkbox" name="" value="jack" v-model="checkedName">
+            <label for="jack">jack</label>
+            <input id="John" type="checkbox" name="" value="John" v-model="checkedName">
+            <label for="John">John</label>
+            <input id="mike" type="checkbox" name="" value="mike" v-model="checkedName">
+            <label for="mike">mike</label>
+            <span>Check name: {{ checkedName }}</span>
+        </div>
     </body>
 </html>
