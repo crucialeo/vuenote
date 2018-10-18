@@ -145,7 +145,16 @@
             <label for="John">John</label>
             <input id="mike" type="checkbox" name="" value="mike" v-model="checkedName">
             <label for="mike">mike</label>
+            <!-- radio 的话，应该绑到同一个 model 就好了 -->
             <span>Check name: {{ checkedName }}</span>
+        </div>
+
+        <!-- select -->
+        <div id="id-div-select" class="">
+            <select v-model="selected" class="" name="">
+                <option v-for="option in options" v-bind:value="option.value">{{ option.text }}</option>
+            </select>
+            <span>selected: {{ selected }}</span>
         </div>
     </body>
 </html>
