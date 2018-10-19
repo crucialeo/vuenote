@@ -364,4 +364,12 @@ $(function() {
             ]
         }
     })
+
+    // dynamic value
+    var dvExample = new Vue({
+        el: '#id-dynamic-value',
+        data: {
+            pick: '',
+        },
+    })
 })
