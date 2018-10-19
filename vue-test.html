@@ -148,7 +148,8 @@
             <!-- radio 的话，应该绑到同一个 model 就好了 -->
             <span>Check name: {{ checkedName }}</span>
         </div>
-        <!-- 上面这个例子的 value 都是固定的。有时候我们会希望他是动态生成的，这时候可以用 v-bind 实现，并且这个值可以不是字符串 -->
+        <!-- 上面这个例子的 value 都是固定的。有时候我们会希望他是动态生成的，这时候可以用 v-bind 实现，并且这个值可以不是字符串。
+        当 value 不写的时候，绑定的 checkName 是布尔值。当 value 写着的时候，绑定的 checkName 是对应的 value 值 -->
 
         <!-- select -->
         <div id="id-div-select" class="">
@@ -159,7 +160,7 @@
         </div>
 
         <div id="id-dynamic-value" class="">
-            <input type="radio" v-model="pick" v-bind:value="a">
+            <!-- <input type="radio" v-model="pick" v-bind:value="a"> -->
         </div>
     </body>
 </html>
