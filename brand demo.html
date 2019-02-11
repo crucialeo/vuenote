@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>brand demo</title>
+        <script src="vue.js"></script>
+    </head>
+    <body>
+        <div id="app" class="">
+            <div class="">
+                <label>
+                    ID:
+                    <input type="text" name="" value="" v-model="id">
+                </label>
+                <label>
+                    Name:
+                    <input type="text" name="" value="" v-model="name">
+                </label>
+                <button type="button" name="button" @click="add">add</button>
+                <label>
+                    search:
+                    <input type="text" name="" value="" v-model="keyword">
+                </label>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>ctime</td>
+                        <td>operation</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in search(keyword)" :key="item.id">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.ctime }}</td>
+                        <td>
+                            <a href="#" @click.prevent="del(item.id)">delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id: '',
+                name: '',
+                keyword: '',
+                list: [
+                    {
+                        id: 1,
+                        name: 'bmw',
+                        ctime: new Date(),
+                    },
+                    {
+                        id: 2,
+                        name: 'audi',
+                        ctime: new Date(),
+                    },
+                ]
+            },
+            methods: {
+                add: function() {
+                    var car = {
+                        id: this.id,
+                        name: this.name,
+                        ctime: new Date(),
+                    }
+                    this.list.push(car)
+                    this.id = ''
+                    this.name = ''
+                },
+                del: function(id) {
+                    var index = this.list.findIndex(item => {
+                        if (item.id == id) {
+                            return true
+                        }
+                    })
+                    this.list.splice(index, 1)
+                },
+                search: function(keyword) {
+                    var newList = []
+                    this.list.forEach(function(item) {
+                        if (item.name.indexOf(keyword) != -1) {
+                            newList.push(item)
+                        }
+                    })
+                    return newList
+                },
+            },
+        })
+        </script>
+    </body>
+</html>
