@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>component demo</title>
+    </head>
+    <body>
+        <div id="app" class="">
+            <com1 :parentmsg="msg"></com1>
+        </div>
+        <script src="vue.js"></script>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    msg: 'father component',
+                },
+                methods: {},
+
+                components: {
+                    com1: {
+                        data: function() {
+                            return {}
+                        },
+                        template: '<h1>child component message from father {{parentmsg}}</h1>',
+                        props: {parentmsg: {
+                            type: String,
+                        }},
+                    },
+                }
+            })
+        </script>
+    </body>
+</html>

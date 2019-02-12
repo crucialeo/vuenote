@@ -14,12 +14,12 @@
                 </label>
                 <label>
                     Name:
-                    <input type="text" name="" value="" v-model="name">
+                    <input type="text" name="" value="" v-model="name" @keyup.f2="add">
                 </label>
                 <button type="button" name="button" @click="add">add</button>
                 <label>
                     search:
-                    <input type="text" name="" value="" v-model="keyword">
+                    <input type="text" name="" value="" v-model="keyword" v-focus>
                 </label>
             </div>
             <table>
@@ -44,6 +44,14 @@
             </table>
         </div>
         <script>
+        Vue.config.keyCodes.f2 = 113
+
+        Vue.directive('focus', {
+            inserted: function(el) {
+                el.focus()
+            }
+        })
+
         var vm = new Vue({
             el: '#app',
             data: {
