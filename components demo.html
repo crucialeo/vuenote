@@ -6,7 +6,8 @@
     </head>
     <body>
         <div id="app" class="">
-            <com1 :parentmsg="msg"></com1>
+            <button type="button" name="button" @click="show">father show</button>
+            <com1 :parentmsg="msg" @func="show"></com1>
         </div>
         <script src="vue.js"></script>
         <script>
@@ -15,19 +16,30 @@
                 data: {
                     msg: 'father component',
                 },
-                methods: {},
+                methods: {
+                    show: function() {
+                        console.log('father method')
+                    }
+                },
 
                 components: {
                     com1: {
                         data: function() {
                             return {}
                         },
-                        template: '<h1>child component message from father {{parentmsg}}</h1>',
-                        props: {parentmsg: {
-                            type: String,
-                        }},
+                        template: '<div><h1>child component message from father {{parentmsg}}</h1><p @click="childClick">child button</p></div>',
+                        props: {
+                            parentmsg: {
+                                type: String,
+                            },
+                        },
+                        methods: {
+                            childClick: function() {
+                                this.$emit('func')
+                            }
+                        }
                     },
-                }
+                },
             })
         </script>
     </body>
